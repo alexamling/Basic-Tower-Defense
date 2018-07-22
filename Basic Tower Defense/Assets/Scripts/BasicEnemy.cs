@@ -2,24 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour {
+public class BasicEnemy : MonoBehaviour {
 
-    public float Speed;
+    public float speed;
 
     private Vector3 velocity;
     private float bobSpeed;
     private float[] animSpeeds;
-    private Transform[] childTransforms;
+    private Transform[] children;
     private Vector3[] childRotations;
     
     
 	public virtual void Start () {
-        childTransforms = gameObject.GetComponentsInChildren<Transform>();
-        childRotations = new Vector3[childTransforms.Length];
-
-        for(int x = 0; x < childTransforms.Length; x++)
+        children = new Transform[4];
+        for (int i = 0; i < 4; i++)
         {
-            childTransforms[x].transform.rotation = Quaternion.Euler(
+            children[i] = gameObject.transform.GetChild(i);
+        }
+        childRotations = new Vector3[children.Length];
+
+        for(int x = 0; x < children.Length; x++)
+        {
+            children[x].transform.rotation = Quaternion.Euler(
                 Random.Range(0.0f, 90.0f),
                 Random.Range(0.0f, 90.0f),
                 Random.Range(0.0f, 90.0f));
@@ -30,9 +34,9 @@ public class Enemy : MonoBehaviour {
                 Random.Range(-5.0f, 5.0f));
         }
 
-        animSpeeds = new float[childTransforms.Length];
+        animSpeeds = new float[children.Length];
         
-        for(int x = 0; x < childTransforms.Length; x++)
+        for(int x = 0; x < children.Length; x++)
         {
             animSpeeds[x] = Random.Range(1.0f, 2.0f);
         }
@@ -41,19 +45,13 @@ public class Enemy : MonoBehaviour {
 	
 
 	void FixedUpdate () {
-        Move();
-	}
-
-
-    public virtual void Move()
-    {
-        float xPos = this.transform.position.x - Speed * Time.fixedDeltaTime;
+        float xPos = this.transform.position.x - speed * Time.fixedDeltaTime;
         float yPos = Mathf.Cos(Time.fixedTime * bobSpeed) + 2;
         this.transform.position = new Vector3(xPos, yPos, 0);
 
-        for (int x = 0; x < childTransforms.Length; x++)
+        for (int x = 0; x < children.Length; x++)
         {
-            childTransforms[x].Rotate(childRotations[x]);
+            children[x].Rotate(childRotations[x]);
         }
     }
 }

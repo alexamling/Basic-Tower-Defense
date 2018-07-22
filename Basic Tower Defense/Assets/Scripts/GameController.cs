@@ -6,11 +6,11 @@ public class GameController : MonoBehaviour {
 
     public GameObject enemy;
 
-    private List<Enemy> enemies;
+    private List<BasicEnemy> enemies;
 
 	// Use this for initialization
 	void Start () {
-        enemies = new List<Enemy>();		
+        enemies = new List<BasicEnemy>();		
 	}
 	
 	// Update is called once per frame
