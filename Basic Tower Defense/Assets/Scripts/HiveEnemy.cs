@@ -23,9 +23,10 @@ public class HiveEnemy : MonoBehaviour {
 
         animSpeeds = new float[children.Length];
 
-        for (int x = 0; x < children.Length; x++)
+        for (int i = 0; i < children.Length; i++)
         {
-            animSpeeds[x] = Random.Range(1.0f, 2.0f);
+            animSpeeds[i] = Random.Range(1.0f, 2.0f);
+            children[i].transform.localPosition = new Vector3(Mathf.Cos(i * (Mathf.PI / 3)), 0, Mathf.Sin(i * (Mathf.PI / 3)));
         }
         bobSpeed = Random.Range(4.0f, 5.0f);
     }
@@ -35,14 +36,7 @@ public class HiveEnemy : MonoBehaviour {
     {
         float xPos = this.transform.position.x - speed * Time.fixedDeltaTime;
         float yPos = Mathf.Cos(Time.time * bobSpeed) + 2;
-        this.transform.position = new Vector3(xPos, yPos, 0);
-
-        for (int i = 0; i < children.Length; i++)
-        {
-            children[i].localPosition = new Vector3(
-                Mathf.Cos(i + Time.time),
-                0,
-                Mathf.Sin(i + Time.time));
-        }
+        gameObject.transform.position = new Vector3(xPos, yPos, 0);
+        gameObject.transform.Rotate(new Vector3(0, speed, 0));
     }
 }
